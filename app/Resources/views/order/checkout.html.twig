@@ -33,7 +33,17 @@
                 </table>
             </div>
             <div class="col-xs-12 col-sm-6">
-                <!-- add checkout form here -->
+                <form action="" method="POST">
+                    <script
+                            src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                            data-key="{{ stripe_public_key }}"
+                            data-amount="{{ cart.total * 100 }}"
+                            data-name="Demo Site"
+                            data-description="Widget"
+                            data-image="{{ asset('images/logo.png') }}"
+                            data-locale="auto">
+                    </script>
+                </form>
             </div>
         </div>
     </div>
