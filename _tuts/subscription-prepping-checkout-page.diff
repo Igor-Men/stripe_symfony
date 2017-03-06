@@ -1,0 +1,18 @@
+diff --git a/app/Resources/views/order/checkout.html.twig b/app/Resources/views/order/checkout.html.twig
+index 352565f..ddc8a17 100644
+--- a/app/Resources/views/order/checkout.html.twig
++++ b/app/Resources/views/order/checkout.html.twig
+@@ -79,6 +79,13 @@
+                                 <td class="col-xs-3">${{ product.price }}</td>
+                             </tr>
+                         {% endfor %}
++
++                        {% if cart.subscriptionPlan %}
++                            <tr>
++                                <th class="col-xs-6 checkout-product-name">Subscription: {{ cart.subscriptionPlan.name }}</th>
++                                <td class="col-xs-3">${{ cart.subscriptionPlan.price }} / month</td>
++                            </tr>
++                        {% endif %}
+                     </tbody>
+                     <tfoot>
+                         <tr>

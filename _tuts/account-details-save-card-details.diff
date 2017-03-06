@@ -1,0 +1,70 @@
+diff --git a/app/Resources/views/profile/account.html.twig b/app/Resources/views/profile/account.html.twig
+index 854e5e9..3fa2297 100644
+--- a/app/Resources/views/profile/account.html.twig
++++ b/app/Resources/views/profile/account.html.twig
+@@ -32,7 +32,11 @@
+                         <tr>
+                             <th>Credit Card</th>
+                             <td>
+-                                None
++                                {% if app.user.cardBrand %}
++                                    {{ app.user.cardBrand }} ending in {{ app.user.cardLast4 }}
++                                {% else %}
++                                    None
++                                {% endif %}
+                             </td>
+                         </tr>
+                     </tbody>
+diff --git a/src/AppBundle/Controller/OrderController.php b/src/AppBundle/Controller/OrderController.php
+index d36dcec..f64190c 100644
+--- a/src/AppBundle/Controller/OrderController.php
++++ b/src/AppBundle/Controller/OrderController.php
+@@ -87,11 +87,15 @@ class OrderController extends BaseController
+         /** @var User $user */
+         $user = $this->getUser();
+         if (!$user->getStripeCustomerId()) {
+-            $stripeClient->createCustomer($user, $token);
++            $stripeCustomer = $stripeClient->createCustomer($user, $token);
+         } else {
+-            $stripeClient->updateCustomerCard($user, $token);
++            $stripeCustomer = $stripeClient->updateCustomerCard($user, $token);
+         }
+ 
++        // save card details
++        $this->get('subscription_helper')
++            ->updateCardDetails($user, $stripeCustomer);
++
+         $cart = $this->get('shopping_cart');
+ 
+         foreach ($cart->getProducts() as $product) {
+diff --git a/src/AppBundle/StripeClient.php b/src/AppBundle/StripeClient.php
+index 4784158..411b375 100644
+--- a/src/AppBundle/StripeClient.php
++++ b/src/AppBundle/StripeClient.php
+@@ -37,6 +37,8 @@ class StripeClient
+ 
+         $customer->source = $paymentToken;
+         $customer->save();
++
++        return $customer;
+     }
+ 
+     public function createInvoiceItem($amount, User $user, $description)
+diff --git a/src/AppBundle/Subscription/SubscriptionHelper.php b/src/AppBundle/Subscription/SubscriptionHelper.php
+index 48e394b..8907f76 100644
+--- a/src/AppBundle/Subscription/SubscriptionHelper.php
++++ b/src/AppBundle/Subscription/SubscriptionHelper.php
+@@ -59,4 +59,13 @@ class SubscriptionHelper
+         $this->em->persist($subscription);
+         $this->em->flush($subscription);
+     }
++
++    public function updateCardDetails(User $user, \Stripe\Customer $stripeCustomer)
++    {
++        $cardDetails = $stripeCustomer->sources->data[0];
++        $user->setCardBrand($cardDetails->brand);
++        $user->setCardLast4($cardDetails->last4);
++        $this->em->persist($user);
++        $this->em->flush($user);
++    }
+ }

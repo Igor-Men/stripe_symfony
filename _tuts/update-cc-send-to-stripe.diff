@@ -1,0 +1,65 @@
+diff --git a/app/Resources/views/order/_cardForm.html.twig b/app/Resources/views/order/_cardForm.html.twig
+index 500276e..364e6e7 100644
+--- a/app/Resources/views/order/_cardForm.html.twig
++++ b/app/Resources/views/order/_cardForm.html.twig
+@@ -1,4 +1,4 @@
+-<form action="" method="POST" class="js-checkout-form checkout-form">
++<form action="{{ formAction|default('') }}" method="POST" class="js-checkout-form checkout-form">
+     <div class="row">
+         <div class="col-xs-8 col-sm-6 col-sm-offset-2 form-group">
+             <div class="input-group">
+diff --git a/app/Resources/views/profile/account.html.twig b/app/Resources/views/profile/account.html.twig
+index f576b12..48597a3 100644
+--- a/app/Resources/views/profile/account.html.twig
++++ b/app/Resources/views/profile/account.html.twig
+@@ -86,7 +86,8 @@
+                 <div class="js-update-card-wrapper" style="display: none;">
+                     <h2>Update Credit Card</h2>
+                     {{ include('order/_cardForm.html.twig', {
+-                        buttonText: 'Update Card'
++                        buttonText: 'Update Card',
++                        formAction: path('account_update_credit_card')
+                     }) }}
+                 </div>
+             </div>
+diff --git a/src/AppBundle/Controller/ProfileController.php b/src/AppBundle/Controller/ProfileController.php
+index ca6135a..0389357 100644
+--- a/src/AppBundle/Controller/ProfileController.php
++++ b/src/AppBundle/Controller/ProfileController.php
+@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
+ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
++use Symfony\Component\HttpFoundation\Request;
+ 
+ /**
+  * @Security("is_granted('ROLE_USER')")
+@@ -64,4 +65,28 @@ class ProfileController extends BaseController
+ 
+         return $this->redirectToRoute('profile_account');
+     }
++
++    /**
++     * @Route("/profile/card/update", name="account_update_credit_card")
++     * @Method("POST")
++     */
++    public function updateCreditCardAction(Request $request)
++    {
++        $token = $request->request->get('stripeToken');
++        $user = $this->getUser();
++
++        $stripeClient = $this->get('stripe_client');
++        $stripeCustomer = $stripeClient->updateCustomerCard(
++            $user,
++            $token
++        );
++
++        // save card details!
++        $this->get('subscription_helper')
++            ->updateCardDetails($user, $stripeCustomer);
++
++        $this->addFlash('success', 'Card updated!');
++
++        return $this->redirectToRoute('profile_account');
++    }
+ }

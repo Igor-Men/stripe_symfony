@@ -1,0 +1,34 @@
+diff --git a/app/Resources/views/profile/account.html.twig b/app/Resources/views/profile/account.html.twig
+index d8eba90..2804dac 100644
+--- a/app/Resources/views/profile/account.html.twig
++++ b/app/Resources/views/profile/account.html.twig
+@@ -48,6 +48,8 @@
+ 
+                                         But you have access until {{ app.user.subscription.endsAt|date('F jS') }}
+                                     {% else %}
++                                        {{ currentPlan.name }}
++
+                                         <span class="label label-success">Active</span>
+                                     {% endif %}
+                                 {% else %}
+diff --git a/src/AppBundle/Controller/ProfileController.php b/src/AppBundle/Controller/ProfileController.php
+index f4ccce7..5d6ec40 100644
+--- a/src/AppBundle/Controller/ProfileController.php
++++ b/src/AppBundle/Controller/ProfileController.php
+@@ -17,9 +17,16 @@ class ProfileController extends BaseController
+      */
+     public function accountAction()
+     {
++        $currentPlan = null;
++        if ($this->getUser()->hasActiveSubscription()) {
++            $currentPlan = $this->get('subscription_helper')
++                ->findPlan($this->getUser()->getSubscription()->getStripePlanId());
++        }
++
+         return $this->render('profile/account.html.twig', [
+             'error' => null,
+             'stripe_public_key' => $this->getParameter('stripe_public_key'),
++            'currentPlan' => $currentPlan
+         ]);
+     }
+ 

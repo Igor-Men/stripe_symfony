@@ -1,0 +1,55 @@
+title: Stripe: Killer Payment Processing + ??? = Profit
+
+summary: |
+    You've already got the unstoppably amazing product, you
+    *just* need to get out there and sell it! Knowing that almost
+    every payment-processor ever is a *huge* pain you choose
+    Stripe (you're so wise).
+
+    In this tutorial, we'll build a full checkout system for our
+    awesome product and learn all about:
+
+    - Handling the Stripe.js checkout & token process
+    - Associating cards and creating Charge objects
+    - Creating Stripe customers and connecting them with users
+    - Building an embedded *and* a completely customer checkout form
+    - Formatting your card & expiration fields like a pro
+    - Being *super* graceful when things go wrong
+    - Organizing everything with Stripe invoices
+
+    In [Part 2](http://knpuniversity.com/screencast/stripe-level2),
+    we'll handle subscriptions, webhooks, discount and more!
+
+illustration: stripe.png
+
+tuts_hero:
+    start_step: start
+    finish_step: errors-handling-card-error
+
+chapters:
+    stripe-dashboard:
+        video_key: 178034979
+    checkout-form:
+        video_key: 178037785
+    charge-it:
+        video_key: 179076463
+    hide-private-keys:
+        video_key: 178037613
+    stripe-customer-user-table:
+        video_key: 178043724
+    stripe-customers:
+        video_key: 178045585
+    stripe-invoices:
+        video_key: 178045797
+    centralize-stripe-code:
+        video_key: 178537309
+    force-https-please:
+        video_key: 178504992
+    custom-checkout-form:
+        video_key: 178505592
+    checkout-form-javascript-handling:
+        video_key: 178505776
+    pretty-card-formatting:
+        video_key: 178505935
+    pro-error-handling:
+        video_key: 178538187

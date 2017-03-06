@@ -1,0 +1,19 @@
+diff --git a/src/AppBundle/Controller/ProfileController.php b/src/AppBundle/Controller/ProfileController.php
+index 55e9dd0..d05423a 100644
+--- a/src/AppBundle/Controller/ProfileController.php
++++ b/src/AppBundle/Controller/ProfileController.php
+@@ -45,6 +45,13 @@ class ProfileController extends BaseController
+     public function reactivateSubscriptionAction()
+     {
+         $stripeClient = $this->get('stripe_client');
+-        $stripeClient->reactivateSubscription($this->getUser());
++        $stripeSubscription = $stripeClient->reactivateSubscription($this->getUser());
++
++        $this->get('subscription_helper')
++            ->addSubscriptionToUser($stripeSubscription, $this->getUser());
++
++        $this->addFlash('success', 'Welcome back!');
++
++        return $this->redirectToRoute('profile_account');
+     }
+ }

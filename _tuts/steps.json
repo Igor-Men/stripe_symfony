@@ -1,0 +1,420 @@
+{
+    "steps": [
+        {
+            "id": "start",
+            "name": "start",
+            "description": null
+        },
+        {
+            "id": "charge-paste-in-embedded-checkout-code",
+            "name": "Charge: Paste in embedded checkout code",
+            "description": null
+        },
+        {
+            "id": "charge-customize-fields",
+            "name": "Charge: Customize fields",
+            "description": null
+        },
+        {
+            "id": "charge-submit-dump-token",
+            "name": "Charge: Submit & dump token",
+            "description": null
+        },
+        {
+            "id": "charge-install-stripe-sdk",
+            "name": "Charge: Install Stripe SDK",
+            "description": null
+        },
+        {
+            "id": "charge-make-basic-charge-in-controller",
+            "name": "Charge: Make basic charge in controller",
+            "description": null
+        },
+        {
+            "id": "config-move-secret-key-to-config",
+            "name": "Config: Move secret key to config",
+            "description": null
+        },
+        {
+            "id": "customer-fetch-and-associate-stripe-customer",
+            "name": "Customer: Fetch and associate Stripe customer",
+            "description": null
+        },
+        {
+            "id": "invoice-create-and-charge-invoice",
+            "name": "Invoice: Create and charge invoice",
+            "description": null
+        },
+        {
+            "id": "invoice-one-invoiceitem-per-product",
+            "name": "Invoice: One InvoiceItem per product",
+            "description": null
+        },
+        {
+            "id": "organization-create-stripeclient",
+            "name": "Organization: Create StripeClient",
+            "description": null
+        },
+        {
+            "id": "organization-set-token-in-construct",
+            "name": "Organization: Set token in __construct",
+            "description": null
+        },
+        {
+            "id": "organization-stripeclient-createcustomer",
+            "name": "Organization: StripeClient::createCustomer",
+            "description": null
+        },
+        {
+            "id": "organization-stripeclient-updatecustomercard",
+            "name": "Organization: StripeClient:updateCustomerCard",
+            "description": null
+        },
+        {
+            "id": "organization-set-stripe-secret-key",
+            "name": "Organization: Set stripe secret key",
+            "description": null
+        },
+        {
+            "id": "organization-invoice-item-stuff",
+            "name": "Organization: invoice item stuff",
+            "description": null
+        },
+        {
+            "id": "ssl-setup-schemes-for-https",
+            "name": "SSL: Setup schemes for https",
+            "description": null
+        },
+        {
+            "id": "ssl-make-schemes-configurable",
+            "name": "SSL: Make schemes configurable",
+            "description": null
+        },
+        {
+            "id": "custom-form-add-form",
+            "name": "Custom Form: Add form",
+            "description": null
+        },
+        {
+            "id": "custom-form-add-basic-js",
+            "name": "Custom Form: Add Basic JS",
+            "description": null
+        },
+        {
+            "id": "custom-form-fix-js",
+            "name": "Custom Form: Fix JS",
+            "description": null
+        },
+        {
+            "id": "custom-form-jquery-cc-formatting",
+            "name": "Custom Form: jQuery CC formatting",
+            "description": null
+        },
+        {
+            "id": "errors-refactor-to-private-method",
+            "name": "Errors: Refactor to private method",
+            "description": null
+        },
+        {
+            "id": "errors-handling-card-error",
+            "name": "Errors: Handling card error",
+            "description": null
+        },
+        {
+            "id": "subscription-prep-add-subscriptionhelper",
+            "name": "Subscription Prep: Add SubscriptionHelper",
+            "description": null
+        },
+        {
+            "id": "subscription-prep-cart-updates",
+            "name": "Subscription Prep: Cart updates",
+            "description": null
+        },
+        {
+            "id": "subscription-prep-subscription-entity",
+            "name": "Subscription Prep: Subscription Entity",
+            "description": null
+        },
+        {
+            "id": "subscription-prep-add-profile-page",
+            "name": "Subscription Prep: Add profile page",
+            "description": null
+        },
+        {
+            "id": "subscription-prep-minor-tweaks",
+            "name": "Subscription Prep: Minor tweaks",
+            "description": null
+        },
+        {
+            "id": "subscription-prep-user-entity-changes",
+            "name": "Subscription Prep: User entity changes",
+            "description": null
+        },
+        {
+            "id": "subscription-setup-plan-objects",
+            "name": "Subscription: Setup plan objects",
+            "description": null
+        },
+        {
+            "id": "subscription-functional-add-to-cart",
+            "name": "Subscription: Functional add to cart",
+            "description": null
+        },
+        {
+            "id": "subscription-prepping-checkout-page",
+            "name": "Subscription: Prepping checkout page",
+            "description": null
+        },
+        {
+            "id": "subscription-creating-subscription-in-stripe",
+            "name": "Subscription: Creating Subscription in Stripe",
+            "description": null
+        },
+        {
+            "id": "subscription-add-subscription-indicator",
+            "name": "Subscription: Add subscription indicator",
+            "description": null
+        },
+        {
+            "id": "subscription-associate-with-user",
+            "name": "Subscription: Associate with user",
+            "description": null
+        },
+        {
+            "id": "account-details-save-card-details",
+            "name": "Account Details: Save card details",
+            "description": null
+        },
+        {
+            "id": "account-details-subscription-billing-period",
+            "name": "Account Details: Subscription billing period",
+            "description": null
+        },
+        {
+            "id": "cancel-cancelling-in-stripe",
+            "name": "Cancel: Cancelling in Stripe",
+            "description": null
+        },
+        {
+            "id": "cancel-updating-subscription-entity",
+            "name": "Cancel: Updating Subscription entity",
+            "description": null
+        },
+        {
+            "id": "cancel-render-to-user",
+            "name": "Cancel: Render to user",
+            "description": null
+        },
+        {
+            "id": "cancel-reactivate-in-stripe",
+            "name": "Cancel: Reactivate in Stripe",
+            "description": null
+        },
+        {
+            "id": "cancel-reactivate-in-subscription-entity",
+            "name": "Cancel: Reactivate in Subscription entity",
+            "description": null
+        },
+        {
+            "id": "cancel-handle-past-due-edge-case",
+            "name": "Cancel: Handle past_due edge case",
+            "description": null
+        },
+        {
+            "id": "update-cc-embed-form-with-basic-js",
+            "name": "Update CC: Embed form with basic JS",
+            "description": null
+        },
+        {
+            "id": "update-cc-customize-button",
+            "name": "Update CC: Customize Button",
+            "description": null
+        },
+        {
+            "id": "update-cc-sharing-javascript",
+            "name": "Update CC: Sharing JavaScript",
+            "description": null
+        },
+        {
+            "id": "update-cc-send-to-stripe",
+            "name": "Update CC: Send to Stripe",
+            "description": null
+        },
+        {
+            "id": "update-cc-handling-declines",
+            "name": "Update CC: Handling declines",
+            "description": null
+        },
+        {
+            "id": "webhook-basic-controller",
+            "name": "Webhook: Basic Controller",
+            "description": null
+        },
+        {
+            "id": "webhook-fetching-event-look-at-type",
+            "name": "Webhook: Fetching event, look at type",
+            "description": null
+        },
+        {
+            "id": "webhook-cancelling-subscription",
+            "name": "Webhook: Cancelling subscription",
+            "description": null
+        },
+        {
+            "id": "webhook-test-bootstrap-test",
+            "name": "Webhook Test: Bootstrap test",
+            "description": null
+        },
+        {
+            "id": "webhook-test-starting-test-method",
+            "name": "Webhook Test: Starting test method",
+            "description": null
+        },
+        {
+            "id": "webhook-test-send-faked-json",
+            "name": "Webhook Test: Send faked JSON",
+            "description": null
+        },
+        {
+            "id": "webhook-test-allow-faked-json-in-test-env",
+            "name": "Webhook Test: Allow faked JSON in test env",
+            "description": null
+        },
+        {
+            "id": "webhook-test-query-for-fresh-subscription",
+            "name": "Webhook Test: Query for fresh Subscription",
+            "description": null
+        },
+        {
+            "id": "webhook-ngrok-disable-security-check",
+            "name": "Webhook Ngrok: Disable security check",
+            "description": null
+        },
+        {
+            "id": "webhook-ngrok-re-enable-security-check",
+            "name": "Webhook Ngrok: Re-enable security check",
+            "description": null
+        },
+        {
+            "id": "webhook-handle-subscription-paid",
+            "name": "Webhook: Handle subscription paid",
+            "description": null
+        },
+        {
+            "id": "webhook-determine-if-this-is-a-renewal",
+            "name": "Webhook: Determine if this is a renewal",
+            "description": null
+        },
+        {
+            "id": "webhook-handling-invoice-payment-problem",
+            "name": "Webhook: Handling invoice payment problem",
+            "description": null
+        },
+        {
+            "id": "webhook-prevent-replay-attack",
+            "name": "Webhook: Prevent replay attack",
+            "description": null
+        },
+        {
+            "id": "upgrade-print-current-plan",
+            "name": "Upgrade: Print current plan",
+            "description": null
+        },
+        {
+            "id": "upgrade-add-change-button",
+            "name": "Upgrade: Add change button",
+            "description": null
+        },
+        {
+            "id": "upgrade-dump-next-invoice",
+            "name": "Upgrade: Dump next invoice",
+            "description": null
+        },
+        {
+            "id": "upgrade-show-change-price",
+            "name": "Upgrade: Show change price",
+            "description": null
+        },
+        {
+            "id": "upgrade-prettier-popup",
+            "name": "Upgrade: Prettier popup",
+            "description": null
+        },
+        {
+            "id": "upgrade-execute-change",
+            "name": "Upgrade: Execute change",
+            "description": null
+        },
+        {
+            "id": "upgrade-try-catch-the-invoice",
+            "name": "Upgrade: Try-catch the invoice",
+            "description": null
+        },
+        {
+            "id": "duration-setup-plans-button-for-yearly",
+            "name": "Duration: Setup plans+button for yearly",
+            "description": null
+        },
+        {
+            "id": "duration-fix-preview-amount",
+            "name": "Duration: Fix preview amount",
+            "description": null
+        },
+        {
+            "id": "duration-don-t-invoice-on-duration-change",
+            "name": "Duration: Don't invoice on duration change",
+            "description": null
+        },
+        {
+            "id": "discount-add-basic-form",
+            "name": "Discount: Add basic form",
+            "description": null
+        },
+        {
+            "id": "discount-find-and-dump-stripe-discount",
+            "name": "Discount: Find and Dump Stripe Discount",
+            "description": null
+        },
+        {
+            "id": "discount-save-into-cart-render",
+            "name": "Discount: Save into cart & render",
+            "description": null
+        },
+        {
+            "id": "discount-checkout-with-code",
+            "name": "Discount: Checkout with code",
+            "description": null
+        },
+        {
+            "id": "discount-handle-bad-code",
+            "name": "Discount: Handle bad code",
+            "description": null
+        },
+        {
+            "id": "discount-handling-expired",
+            "name": "Discount: Handling expired",
+            "description": null
+        },
+        {
+            "id": "discount-free-checkout",
+            "name": "Discount: Free Checkout",
+            "description": null
+        },
+        {
+            "id": "discount-tweak-webhook-email",
+            "name": "Discount: Tweak webhook email",
+            "description": null
+        },
+        {
+            "id": "invoice-simple-invoice-list",
+            "name": "Invoice: Simple invoice list",
+            "description": null
+        },
+        {
+            "id": "invoice-render-single-invoice",
+            "name": "Invoice: Render single invoice",
+            "description": null
+        }
+    ],
+    "sha": "451fb0e87ed60f29e6421673f07708847c22fe8a"
+}

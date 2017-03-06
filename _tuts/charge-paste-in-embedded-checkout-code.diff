@@ -1,0 +1,23 @@
+diff --git a/app/Resources/views/order/checkout.html.twig b/app/Resources/views/order/checkout.html.twig
+index 52c8416..5eae347 100644
+--- a/app/Resources/views/order/checkout.html.twig
++++ b/app/Resources/views/order/checkout.html.twig
+@@ -33,7 +33,17 @@
+                 </table>
+             </div>
+             <div class="col-xs-12 col-sm-6">
+-                <!-- add checkout form here -->
++                <form action="" method="POST">
++                    <script
++                        src="https://checkout.stripe.com/checkout.js" class="stripe-button"
++                        data-key="pk_test_HxZzNHy8LImKK9LDtgMDRBwd"
++                        data-amount="999"
++                        data-name="Dollar Shear Club"
++                        data-description="Widget"
++                        data-image="/img/documentation/checkout/marketplace.png"
++                        data-locale="auto">
++                    </script>
++                </form>
+             </div>
+         </div>
+     </div>

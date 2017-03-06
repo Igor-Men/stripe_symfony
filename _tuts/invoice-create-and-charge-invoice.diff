@@ -1,0 +1,23 @@
+diff --git a/src/AppBundle/Controller/OrderController.php b/src/AppBundle/Controller/OrderController.php
+index 386868e..1aad14f 100644
+--- a/src/AppBundle/Controller/OrderController.php
++++ b/src/AppBundle/Controller/OrderController.php
+@@ -57,12 +57,17 @@ class OrderController extends BaseController
+                 $customer->save();
+             }
+ 
+-            \Stripe\Charge::create(array(
++            \Stripe\InvoiceItem::create(array(
+               "amount" => $this->get('shopping_cart')->getTotal() * 100,
+               "currency" => "usd",
+               "customer" => $user->getStripeCustomerId(),
+               "description" => "First test charge!"
+             ));
++            $invoice = \Stripe\Invoice::create(array(
++                "customer" => $user->getStripeCustomerId()
++            ));
++            // guarantee it charges *right* now
++            $invoice->pay();
+ 
+             $this->get('shopping_cart')->emptyCart();
+             $this->addFlash('success', 'Order Complete! Yay!');

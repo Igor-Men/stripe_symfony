@@ -1,0 +1,19 @@
+diff --git a/src/AppBundle/Controller/ProfileController.php b/src/AppBundle/Controller/ProfileController.php
+index 7ea9d27..09f87bf 100644
+--- a/src/AppBundle/Controller/ProfileController.php
++++ b/src/AppBundle/Controller/ProfileController.php
+@@ -125,8 +125,12 @@ class ProfileController extends BaseController
+                 $plan
+             );
+ 
+-        dump($stripeInvoice);
++        // contains the pro-rations *plus* the next cycle's amount
++        $total = $stripeInvoice->amount_due;
+ 
+-        return new JsonResponse(['total' => 50]);
++        // subtract plan price to *remove* next the next cycle's total
++        $total -= $plan->getPrice() * 100;
++
++        return new JsonResponse(['total' => $total/100]);
+     }
+ }

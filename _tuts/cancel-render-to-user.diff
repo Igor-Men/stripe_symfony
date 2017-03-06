@@ -1,0 +1,101 @@
+diff --git a/app/Resources/views/profile/account.html.twig b/app/Resources/views/profile/account.html.twig
+index 9ae43ca..f9a82ac 100644
+--- a/app/Resources/views/profile/account.html.twig
++++ b/app/Resources/views/profile/account.html.twig
+@@ -8,10 +8,14 @@
+                 <h1>
+                     My Account
+ 
+-                    {% if app.user.subscription %}
+-                        <form action="{{ path('account_subscription_cancel') }}" method="POST" class="pull-right">
+-                            <button type="submit" class="btn btn-danger btn-xs">Cancel Subscription</button>
+-                        </form>
++                    {% if app.user.hasActiveSubscription %}
++                        {% if app.user.subscription.isCancelled %}
++                            todo - add reactivate button
++                        {% else %}
++                            <form action="{{ path('account_subscription_cancel') }}" method="POST" class="pull-right">
++                                <button type="submit" class="btn btn-danger btn-xs">Cancel Subscription</button>
++                            </form>
++                        {% endif %}
+                     {% endif %}
+                 </h1>
+ 
+@@ -20,8 +24,14 @@
+                         <tr>
+                             <th>Subscription</th>
+                             <td>
+-                                {% if app.user.subscription %}
+-                                    <span class="label label-success">Active</span>
++                                {% if app.user.hasActiveSubscription %}
++                                    {% if app.user.subscription.isCancelled %}
++                                        <span class="label label-warning">Cancelled</span>
++
++                                        But you have access until {{ app.user.subscription.endsAt|date('F jS') }}
++                                    {% else %}
++                                        <span class="label label-success">Active</span>
++                                    {% endif %}
+                                 {% else %}
+                                     <span class="label label-default">None</span>
+                                 {% endif %}
+@@ -30,7 +40,7 @@
+                         <tr>
+                             <th>Next Billing at:</th>
+                             <td>
+-                                {% if app.user.subscription %}
++                                {% if app.user.hasActiveNonCancelledSubscription %}
+                                     {{ app.user.subscription.billingPeriodEndsAt|date('F jS') }}
+                                 {% else %}
+                                     n/a
+@@ -40,7 +50,7 @@
+                         <tr>
+                             <th>Credit Card</th>
+                             <td>
+-                                {% if app.user.cardBrand %}
++                                {% if app.user.hasActiveNonCancelledSubscription %}
+                                     {{ app.user.cardBrand }} ending in {{ app.user.cardLast4 }}
+                                 {% else %}
+                                     None
+diff --git a/src/AppBundle/Entity/Subscription.php b/src/AppBundle/Entity/Subscription.php
+index 5bdc706..19d3d38 100644
+--- a/src/AppBundle/Entity/Subscription.php
++++ b/src/AppBundle/Entity/Subscription.php
+@@ -106,4 +106,19 @@ class Subscription
+         $this->endsAt = $this->billingPeriodEndsAt;
+         $this->billingPeriodEndsAt = null;
+     }
++
++    /**
++     * Subscription is active, or cancelled but still in "active" period
++     *
++     * @return bool
++     */
++    public function isActive()
++    {
++        return $this->endsAt === null || $this->endsAt > new \DateTime();
++    }
++
++    public function isCancelled()
++    {
++        return $this->endsAt !== null;
++    }
+ }
+diff --git a/src/AppBundle/Entity/User.php b/src/AppBundle/Entity/User.php
+index bb313f9..aaa3f55 100644
+--- a/src/AppBundle/Entity/User.php
++++ b/src/AppBundle/Entity/User.php
+@@ -80,4 +80,14 @@ class User extends BaseUser
+     {
+         $this->cardLast4 = $cardLast4;
+     }
++
++    public function hasActiveSubscription()
++    {
++        return $this->getSubscription() && $this->getSubscription()->isActive();
++    }
++
++    public function hasActiveNonCancelledSubscription()
++    {
++        return $this->hasActiveSubscription() && !$this->getSubscription()->isCancelled();
++    }
+ }

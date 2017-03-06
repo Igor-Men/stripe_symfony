@@ -1,0 +1,59 @@
+diff --git a/src/AppBundle/Controller/OrderController.php b/src/AppBundle/Controller/OrderController.php
+index d9627d1..0de18e9 100644
+--- a/src/AppBundle/Controller/OrderController.php
++++ b/src/AppBundle/Controller/OrderController.php
+@@ -36,23 +36,7 @@ class OrderController extends BaseController
+         if ($request->isMethod('POST')) {
+             $token = $request->request->get('stripeToken');
+ 
+-            $stripeClient = $this->get('stripe_client');
+-            /** @var User $user */
+-            $user = $this->getUser();
+-            if (!$user->getStripeCustomerId()) {
+-                $stripeClient->createCustomer($user, $token);
+-            } else {
+-                $stripeClient->updateCustomerCard($user, $token);
+-            }
+-
+-            foreach ($this->get('shopping_cart')->getProducts() as $product) {
+-                $stripeClient->createInvoiceItem(
+-                    $product->getPrice() * 100,
+-                    $user,
+-                    $product->getName()
+-                );
+-            }
+-            $stripeClient->createInvoice($user, true);
++            $this->chargeCustomer($token);
+ 
+             $this->get('shopping_cart')->emptyCart();
+             $this->addFlash('success', 'Order Complete! Yay!');
+@@ -67,4 +51,29 @@ class OrderController extends BaseController
+         ));
+ 
+     }
++
++    /**
++     * @param $token
++     */
++    private function chargeCustomer($token)
++    {
++        $stripeClient = $this->get('stripe_client');
++        /** @var User $user */
++        $user = $this->getUser();
++        if (!$user->getStripeCustomerId()) {
++            $stripeClient->createCustomer($user, $token);
++        } else {
++            $stripeClient->updateCustomerCard($user, $token);
++        }
++
++        foreach ($this->get('shopping_cart')->getProducts() as $product) {
++            $stripeClient->createInvoiceItem(
++                $product->getPrice() * 100,
++                $user,
++                $product->getName()
++            );
++        }
++        $stripeClient->createInvoice($user, true);
++    }
+ }
++

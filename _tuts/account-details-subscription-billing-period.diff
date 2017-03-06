@@ -1,0 +1,51 @@
+diff --git a/app/Resources/views/profile/account.html.twig b/app/Resources/views/profile/account.html.twig
+index 3fa2297..608f91e 100644
+--- a/app/Resources/views/profile/account.html.twig
++++ b/app/Resources/views/profile/account.html.twig
+@@ -26,7 +26,11 @@
+                         <tr>
+                             <th>Next Billing at:</th>
+                             <td>
+-                                n/a
++                                {% if app.user.subscription %}
++                                    {{ app.user.subscription.billingPeriodEndsAt|date('F jS') }}
++                                {% else %}
++                                    n/a
++                                {% endif %}
+                             </td>
+                         </tr>
+                         <tr>
+diff --git a/src/AppBundle/Entity/Subscription.php b/src/AppBundle/Entity/Subscription.php
+index d81cd06..6265a00 100644
+--- a/src/AppBundle/Entity/Subscription.php
++++ b/src/AppBundle/Entity/Subscription.php
+@@ -92,10 +92,11 @@ class Subscription
+         return $this->billingPeriodEndsAt;
+     }
+ 
+-    public function activateSubscription($stripePlanId, $stripeSubscriptionId)
++    public function activateSubscription($stripePlanId, $stripeSubscriptionId, \DateTime $periodEnd)
+     {
+         $this->stripePlanId = $stripePlanId;
+         $this->stripeSubscriptionId = $stripeSubscriptionId;
++        $this->billingPeriodEndsAt = $periodEnd;
+         $this->endsAt = null;
+     }
+ }
+diff --git a/src/AppBundle/Subscription/SubscriptionHelper.php b/src/AppBundle/Subscription/SubscriptionHelper.php
+index 8907f76..741cc52 100644
+--- a/src/AppBundle/Subscription/SubscriptionHelper.php
++++ b/src/AppBundle/Subscription/SubscriptionHelper.php
+@@ -51,9 +51,11 @@ class SubscriptionHelper
+             $subscription->setUser($user);
+         }
+ 
++        $periodEnd = \DateTime::createFromFormat('U', $stripeSubscription->current_period_end);
+         $subscription->activateSubscription(
+             $stripeSubscription->plan->id,
+-            $stripeSubscription->id
++            $stripeSubscription->id,
++            $periodEnd
+         );
+ 
+         $this->em->persist($subscription);

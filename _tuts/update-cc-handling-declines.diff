@@ -1,0 +1,42 @@
+diff --git a/app/Resources/views/profile/account.html.twig b/app/Resources/views/profile/account.html.twig
+index 48597a3..d8eba90 100644
+--- a/app/Resources/views/profile/account.html.twig
++++ b/app/Resources/views/profile/account.html.twig
+@@ -83,7 +83,7 @@
+                 </table>
+             </div>
+             <div class="col-xs-6">
+-                <div class="js-update-card-wrapper" style="display: none;">
++                <div class="js-update-card-wrapper" style="display: {{ error ? 'block' : 'none' }};">
+                     <h2>Update Credit Card</h2>
+                     {{ include('order/_cardForm.html.twig', {
+                         buttonText: 'Update Card',
+diff --git a/src/AppBundle/Controller/ProfileController.php b/src/AppBundle/Controller/ProfileController.php
+index 0389357..f4ccce7 100644
+--- a/src/AppBundle/Controller/ProfileController.php
++++ b/src/AppBundle/Controller/ProfileController.php
+@@ -75,11 +75,19 @@ class ProfileController extends BaseController
+         $token = $request->request->get('stripeToken');
+         $user = $this->getUser();
+ 
+-        $stripeClient = $this->get('stripe_client');
+-        $stripeCustomer = $stripeClient->updateCustomerCard(
+-            $user,
+-            $token
+-        );
++        try {
++            $stripeClient = $this->get('stripe_client');
++            $stripeCustomer = $stripeClient->updateCustomerCard(
++                $user,
++                $token
++            );
++        } catch (\Stripe\Error\Card $e) {
++            $error = 'There was a problem charging your card: '.$e->getMessage();
++
++            $this->addFlash('error', $error);
++
++            return $this->redirectToRoute('profile_account');
++        }
+ 
+         // save card details!
+         $this->get('subscription_helper')
