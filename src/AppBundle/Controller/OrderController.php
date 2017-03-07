@@ -37,12 +37,43 @@ class OrderController extends BaseController
 
             \Stripe\Stripe::setApiKey($this->getParameter('stripe_secret_key'));
 
-            \Stripe\Charge::create(array(
+            $user = $this->getUser();
+
+            if (!$user->getStripeCustomerId()){
+                $customer = \Stripe\Customer::create([
+                    'email' => $user->getEmail(),
+                    'source' => $token
+                ]);
+
+                $user->setStripeCustomerId($customer->id);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($user);
+                $em->flush();
+            } else {
+                $customer = \Stripe\Customer::retrieve($user->getStripeCustomerId());
+                $customer->source = $token;
+                $customer->save();
+            }
+
+
+            /*\Stripe\Charge::create(array(
                 "amount" => $this->get('shopping_cart')->getTotal() * 100,
                 "currency" => "usd",
-                "source" => $token, // obtained with Stripe.js
+                "customer" => $user->getStripeCustomerId(),
+                "description" => "first test charge"
+            ));*/
+
+            \Stripe\Invoice::create(array(
+                "amount" => $this->get('shopping_cart')->getTotal() * 100,
+                "currency" => "usd",
+                "customer" => $user->getStripeCustomerId(),
                 "description" => "first test charge"
             ));
+
+            $invoice = \Stripe\Invoice::create([
+                'customer' => $user->getStripeCustomerId()
+            ]);
+            $invoice->pay();
 
             $this->get('shopping_cart')->emptyCart();
 
